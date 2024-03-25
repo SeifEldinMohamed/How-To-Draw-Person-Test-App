@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "562247227391",
+    "project_id": "how-to-draw-person-test",
+    "storage_bucket": "how-to-draw-person-test.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:562247227391:android:3d5421ef9dfe81196e79ca",
+        "android_client_info": {
+          "package_name": "com.seif.howtodrawpersontestapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD48NchLif2sc7UMmB1CStmmEcdL434Y48"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
