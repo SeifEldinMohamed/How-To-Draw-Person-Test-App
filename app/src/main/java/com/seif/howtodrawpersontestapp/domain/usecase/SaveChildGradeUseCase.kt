@@ -8,9 +8,19 @@ class SaveChildGradeUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(
         childId: String,
-        childGrade:String,
-        childIntelligence:String
+        totalGrade: String,
+        mindAge: String,
+        intelligenceGrade: String,
+        intelligenceValue: String,
+        gradeList: List<String>
     ) {
-        return childRepository.saveChildGrades(childId, childGrade, childIntelligence)
+        return childRepository.saveChildGrades(
+            childId,
+            totalGrade,
+            mindAge ,
+            intelligenceGrade,
+            intelligenceValue,
+            gradeList
+        )
     }
 }

@@ -67,7 +67,6 @@ fun GradeScreen(
                 } else {
                     // show grade
                     animationFile.value = R.raw.congratulations
-
                     showGrades.value = true
                 }
             }
@@ -97,10 +96,13 @@ fun GradeScreen(
                 CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
                     Column {
                         Text(
-                            text = "الدرجة الكالية: ${gradeScreenViewState?.fetchChildData?.totalGrade}", style = MaterialTheme.typography.headlineMedium, modifier = Modifier.padding(bottom = 16.dp)
+                            text = "الدرجة الكلية: ${gradeScreenViewState?.fetchChildData?.totalGrade}", style = MaterialTheme.typography.headlineMedium, modifier = Modifier.padding(bottom = 16.dp)
                         )
                         Text(
-                            text = "ذكاء الطفل: ${gradeScreenViewState?.fetchChildData?.intelligenceGrade}", style = MaterialTheme.typography.headlineMedium
+                            text = "ذكاء الطفل بالدرجات: ${gradeScreenViewState?.fetchChildData?.intelligenceGrade}", style = MaterialTheme.typography.headlineMedium, modifier = Modifier.padding(bottom = 16.dp)
+                        )
+                        Text(
+                            text = "ذكاء الطفل بالقيمة: ${gradeScreenViewState?.fetchChildData?.intelligenceValue}", style = MaterialTheme.typography.headlineMedium
                         )
                     }
                 }

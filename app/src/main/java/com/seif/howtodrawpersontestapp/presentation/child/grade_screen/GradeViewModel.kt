@@ -17,6 +17,9 @@ class GradeViewModel @Inject constructor(
     private val _gradeScreenState = MutableStateFlow<GradeScreenViewState?>(null)
     val gradeScreenState: StateFlow<GradeScreenViewState?> = _gradeScreenState
 
+    init {
+        getGrade()
+    }
     fun getGrade() {
         _gradeScreenState.value = GradeScreenViewState(isLoading = true)
         viewModelScope.launch(Dispatchers.IO) {

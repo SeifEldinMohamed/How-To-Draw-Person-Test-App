@@ -11,7 +11,10 @@ interface ChildRepository {
     suspend fun fetchDrawnList():List<ChildDataModel>?
     suspend fun saveChildGrades(
         childId: String,
-        childGrade: String,
-        childIntelligence: String
+        totalGrade: String,
+        mindAge: String,
+        intelligenceGrade: String,
+        intelligenceValue: String,
+        gradeList: List<String>
     )
 }

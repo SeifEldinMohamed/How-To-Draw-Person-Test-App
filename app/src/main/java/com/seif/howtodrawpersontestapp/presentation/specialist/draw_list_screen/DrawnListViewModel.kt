@@ -22,7 +22,7 @@ class DrawnListViewModel @Inject constructor(
         getDrawList()
     }
 
-    private fun getDrawList() {
+    fun getDrawList() {
         _drawnListScreenState.value = DrawnListScreenViewState(isLoading = true)
         viewModelScope.launch(Dispatchers.IO) {
             try {

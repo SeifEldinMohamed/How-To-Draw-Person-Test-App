@@ -13,5 +13,8 @@ data class ChildDataModel(
     val drawnImage: String = "",
     val testDate: String = "",
     val totalGrade: String ="",
-    val intelligenceGrade: String = ""
+    val mindAgeInMonths: String = "",
+    val intelligenceGrade: String = "",
+    val intelligenceValue: String = "",
+    val gradeList: List<String> = emptyList(),
 ):Parcelable

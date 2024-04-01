@@ -81,13 +81,19 @@ class ChildRepositoryImpl @Inject constructor(
 
     override suspend fun saveChildGrades(
         childId: String,
-        childGrade: String,
-        childIntelligence: String
+        totalGrade: String,
+        mindAge: String,
+        intelligenceGrade: String,
+        intelligenceValue: String,
+        gradeList: List<String>
     ) {
         try {
             val document = firestore.collection("childs").document(childId)
-            document.update("totalGrade",childGrade).await()
-            document.update("intelligenceGrade",childIntelligence).await()
+            document.update("totalGrade",totalGrade).await()
+            document.update("mindAgeInMonths",mindAge).await()
+            document.update("intelligenceGrade",intelligenceGrade).await()
+            document.update("intelligenceValue",intelligenceValue).await()
+            document.update("gradeList", gradeList).await()
         } catch (e: Exception) {
             throw e
         }

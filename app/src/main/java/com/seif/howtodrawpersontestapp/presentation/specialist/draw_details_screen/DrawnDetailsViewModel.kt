@@ -17,17 +17,33 @@ class DrawnDetailsViewModel @Inject constructor(
     private val _drawnDetailsScreenState = MutableStateFlow<DrawnDetailsViewState?>(null)
     val drawnDetailsViewState: StateFlow<DrawnDetailsViewState?> = _drawnDetailsScreenState
 
-    private fun saveChildGradeUseCase(childId: String, childGrade:String, childIntelligence:String) {
+     fun saveChildGrade(
+         childId: String,
+         totalGrade: String,
+         mindAge: String,
+         intelligenceGrade: String,
+         intelligenceValue: String,
+         gradeList: List<String>
+    ) {
         _drawnDetailsScreenState.value = DrawnDetailsViewState(isLoading = true)
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                saveChildGradeUseCase(childId, childGrade, childIntelligence)
+                saveChildGradeUseCase(
+                    childId,
+                    totalGrade,
+                    mindAge,
+                    intelligenceGrade,
+                    intelligenceValue,
+                    gradeList
+                )
                 _drawnDetailsScreenState.value = DrawnDetailsViewState(isLoading = false)
                 _drawnDetailsScreenState.value = DrawnDetailsViewState(savedChildGrade = true)
 
-            } catch (e:Exception) {
-                _drawnDetailsScreenState.value = DrawnDetailsViewState(errorMessage = e.message.toString())
+            } catch (e: Exception) {
+                _drawnDetailsScreenState.value =
+                    DrawnDetailsViewState(errorMessage = e.message.toString())
             }
         }
     }
+
 }

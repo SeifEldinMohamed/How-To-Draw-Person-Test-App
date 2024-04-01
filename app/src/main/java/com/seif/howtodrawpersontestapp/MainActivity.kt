@@ -165,7 +165,7 @@ class MainActivity : ComponentActivity() {
                                 navController.navigate(NavigationRoutes.SpecialistDrawnDetailsScreen.route)
                             }
                         ){
-
+                            drawnListScreenViewModel.getDrawList()
                         }
                     }
 
@@ -177,8 +177,8 @@ class MainActivity : ComponentActivity() {
                             SpecialistDrawnDetailsScreen(
                                 drawnListViewState = drawnDetailsViewState,
                                 childDataModel = childDataModel
-                            ) {
-
+                            ) { childId, totalGrades, mindAge, intellegenceGrade, intellegenceValue, gradeList ->
+                                drawnDetailsViewModel.saveChildGrade(childId, totalGrades.toString(), mindAge.toString(), intellegenceGrade.toString(), intellegenceValue, gradeList)
                             }
                         }
                     }

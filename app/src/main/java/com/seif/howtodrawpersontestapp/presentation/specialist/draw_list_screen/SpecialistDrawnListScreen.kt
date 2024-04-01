@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -14,6 +15,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.pullrefresh.PullRefreshIndicator
+import androidx.compose.material.pullrefresh.pullRefresh
+import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -36,17 +41,21 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.seif.howtodrawpersontestapp.data.model.ChildDataModel
+import com.seif.howtodrawpersontestapp.ui.theme.black
 import com.seif.howtodrawpersontestapp.ui.theme.primary
 import com.seif.howtodrawpersontestapp.ui.theme.white
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
 @Composable
 fun SpecialistDrawnListScreen(
-    drawnListViewState: DrawnListScreenViewState?, onItemClick: (childDataModel: ChildDataModel) -> Unit, onRefreshClick: () -> Unit
-) {
+    drawnListViewState: DrawnListScreenViewState?,
+    onItemClick: (childDataModel: ChildDataModel) -> Unit,
+    onPulledToRefresh: () -> Unit,
+    ) {
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
+    val refreshingState = rememberPullRefreshState(false, onPulledToRefresh)
 
     Scaffold(snackbarHost = { SnackbarHost(hostState = snackbarHostState) }) { padding ->
 
@@ -72,31 +81,56 @@ fun SpecialistDrawnListScreen(
                 }
 
                 drawnListViewState.fetchDrawnList != null -> {
-                    LazyColumn(
-                        modifier = Modifier
+                    Box(
+                        Modifier
                             .fillMaxSize()
-                            .padding(padding),
-                    ) {
-                        item {
-                            TopAppBar(
-                                title = {
-                                    Text(
-                                        text = "الإختبارات", textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth()
-                                    )
-
-                                }, modifier = Modifier.fillMaxWidth()
-                            )
-                        }
-                        items(drawnListViewState.fetchDrawnList) {
-                            ChildTestItem(
-                                childDataModel = it
+                            .pullRefresh(refreshingState)
+                    ){
+                        if (drawnListViewState.fetchDrawnList.isNotEmpty()){
+                            LazyColumn(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .padding(padding),
                             ) {
-                                onItemClick(it)
+                                item {
+                                    TopAppBar(
+                                        title = {
+                                            Text(
+                                                text = "الإختبارات", textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth()
+                                            )
+
+                                        }, modifier = Modifier.fillMaxWidth()
+                                    )
+                                }
+                                items(drawnListViewState.fetchDrawnList) {
+                                    ChildTestItem(
+                                        childDataModel = it
+                                    ) {
+                                        onItemClick(it)
+                                    }
+                                }
+                                item {
+                                    Spacer(modifier = Modifier.height(16.dp))
+                                }
                             }
                         }
-                        item {
-                            Spacer(modifier = Modifier.height(16.dp))
+                        else {
+                            Column(
+                                Modifier.fillMaxSize(),
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                verticalArrangement = Arrangement.Center
+                            ) {
+                                Text(text = "لا يوجد اختبارات حتي الأن")
+                            }
                         }
+
+                        PullRefreshIndicator(
+                            refreshing = false,
+                            state = refreshingState,
+                            modifier = Modifier.align(Alignment.TopCenter),
+                            contentColor = black
+                        )
+
                     }
 
                 }
@@ -126,11 +160,11 @@ fun ChildTestItem(
             Row(horizontalArrangement = Arrangement.Start,
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
-                .fillMaxWidth()
-                .background(white)
-                .clickable {
-                    onItemClick(childDataModel)
-                }) {
+                    .fillMaxWidth()
+                    .background(white)
+                    .clickable {
+                        onItemClick(childDataModel)
+                    }) {
                 AsyncImage(
                     model = childDataModel.drawnImage,
                     contentDescription = "",
@@ -142,9 +176,9 @@ fun ChildTestItem(
                     contentScale = ContentScale.Fit
                 )
                 Column {
-                    Text(text = "اسم الطفل: ${childDataModel.name}", style = MaterialTheme.typography.bodyLarge)
-                    Text(text = "تاريخ الميلاد: $dateOfBirth", style = MaterialTheme.typography.bodyLarge)
-                    Text(text = "تاريخ الاختبار: ${childDataModel.testDate}", style = MaterialTheme.typography.bodyLarge)
+                    Text(text = "اسم الطفل: ${childDataModel.name}", style = MaterialTheme.typography.bodyMedium)
+                    Text(text = "تاريخ الميلاد: $dateOfBirth", style = MaterialTheme.typography.bodyMedium)
+                    Text(text = "تاريخ الاختبار: ${childDataModel.testDate}", style = MaterialTheme.typography.bodyMedium)
                 }
             }
         }
