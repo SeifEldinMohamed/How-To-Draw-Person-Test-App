@@ -1,6 +1,5 @@
 package com.seif.howtodrawpersontestapp.presentation.specialist.draw_details_screen
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.rememberTransformableState
@@ -9,8 +8,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -55,7 +52,6 @@ import com.seif.howtodrawpersontestapp.util.getGradeEquivalencyMap
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.Period
-import kotlin.math.absoluteValue
 
 @Composable
 fun SpecialistDrawnDetailsScreen(
@@ -293,10 +289,15 @@ fun getAgeInMonthsGivenYearsAndMonths(years: Int?, months: Int?): Int {
 
 fun getChildIntelligenceValue(childIntelligenceGrade: Double): String {
     return when {
-        (childIntelligenceGrade < 80.0) -> "ذكاء منخفض"
-        (childIntelligenceGrade in 80.0..99.0) -> "ذكاء متوسط"
-        (childIntelligenceGrade in 100.0..139.0) -> "ذكاء مرتفع"
-        (childIntelligenceGrade >= 140.0) -> "موهوب"
+        (childIntelligenceGrade < 40.0) -> "إعاقة عقلية شديدة"
+        (childIntelligenceGrade in 40.0..54.9) -> "إعاقة عقلية متوسطة"
+        (childIntelligenceGrade in 55.0..70.9) -> "إعاقة عقلية بسيطة"
+        (childIntelligenceGrade in 70.0..79.9) -> "علي حدود الضعف العقلي"
+        (childIntelligenceGrade in 80.0..89.9) -> "أقل من المتوسط"
+        (childIntelligenceGrade in 90.0..109.9) -> "متوسط"
+        (childIntelligenceGrade in 110.0..119.9) -> "فوق المتوسط"
+        (childIntelligenceGrade in 120.0..139.9) -> "ذكي جدآ"
+        (childIntelligenceGrade >= 140.0) -> "عبقري"
         else -> {
             ""
         }
